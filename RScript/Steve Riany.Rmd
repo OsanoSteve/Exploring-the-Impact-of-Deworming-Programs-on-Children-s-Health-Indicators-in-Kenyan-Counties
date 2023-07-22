@@ -1,0 +1,279 @@
+1. Introduction:
+
+The dataset provided contains information related to health indicators and deworming efforts in different counties. It includes data on the total number of individuals dewormed, cases of acute malnutrition, stunting among children in different age groups, diarrhoea cases, and underweight cases in various age categories.
+
+The research question I aim to explore in this analysis is: "Is there a relationship between the count of individuals dewormed and various health indicators across different counties in Kenya?"
+
+By conducting exploratory data analysis and visualizations, we seek to gain insights into potential associations between deworming efforts and health indicators such as acute malnutrition, stunting, diarrhoea, and underweight cases within different age groups in the counties.
+
+Throughout this RMarkdown document, I will perform data cleaning, visualization, and statistical analysis to answer the research question and present my findings effectively. The use of graphics and maps will aid in visualizing patterns and trends, making my analysis more informative and comprehensive. Let's proceed with loading the data and exploring its structure and summary statistics.
+
+---------------------------------------------------------------------------------------------------
+
+2. Loading Data: Use the read_excel function from the readxl package to load the dataset into R.
+
+To load the data into R, I will use the read_excel function from the readxl package.
+I ensure that I have the readxl package installed before proceeding. If I haven't installed it yet, I can do so using the following command:
+
+
+
+Now, let me load the dataset into R:
+
+
+# Load necessary library
+```{r}
+library(readxl)
+```
+
+# Read the dataset into R
+```{r}
+cema_internship_task_2023 <- read_excel("C:/Users/Probook/Desktop/cema_internship_task_2023.xlsx")
+```
+
+# View the first few rows of the dataset
+```{r}
+head(cema_internship_task_2023)
+```
+
+
+-----------------------------------------------------------------------------------------------
+
+
+3. Exploratory Data Analysis (EDA): Conduct data exploration and analysis. I can include the following steps:
+
+A. View the first few rows of the dataset using head() to get a glimpse of the data.
+B. Check for missing values using is.na() and handle them appropriately.
+C. Summarize the dataset using summary() to get descriptive statistics.
+D. Visualize the data using appropriate plots (scatter plots, bar plots, etc.) to gain insights into the relationships between variables.
+
+
+A. View the First Few Rows of the Dataset:
+This will display the first few rows of the loaded dataset, allowing me to get an initial look at its structure and contents.
+
+
+
+
+# View the first few rows of the dataset
+```{r}
+head(cema_internship_task_2023)
+```
+
+
+B. Check for missing values using is.na() and handle them appropriately.
+By checking for missing values, I can identify columns that contain NA values and determine how to handle them appropriately. Depending on the nature of the missing data, I can choose to remove rows with missing values, impute them with appropriate values, or use other methods for handling missing data.
+
+
+
+# Check for missing values in the dataset
+```{r}
+missing_values <- sapply(cema_internship_task_2023, function(x) sum(is.na(x)))
+```
+
+# Display the count of missing values for each column
+```{r}
+print(missing_values)
+```
+
+# Remove rows with missing values for Total Dewormed and Acute Malnutrition
+```{r}
+cema_internship_task_2023_cleaned <- na.omit(cema_internship_task_2023)
+```
+
+
+
+
+C. Summarize the dataset using summary() to get descriptive statistics.
+The summary() function provides a summary of the numerical variables in the dataset, including the minimum, 1st quartile, median, mean, 3rd quartile, and maximum values. This helps me to understand the central tendency and spread of the data.
+
+
+
+# Summarize the dataset to get descriptive statistics
+```{r}
+summary(cema_internship_task_2023)
+```
+
+
+
+D. Visualize the data using appropriate plots (scatter plots, bar plots, etc.) to gain insights into the relationships between variables.
+
+For data visualization, I can create scatter plots to examine the relationships between "Total Dewormed" and other health indicators. Additionally, bar plots or histograms can be used to visualize the distribution of categorical variables or numerical data in specific ranges.
+
+
+
+Here's a scatter plot:
+# Load necessary libraries
+```{r}
+library(ggplot2)
+```
+
+# Scatter plot: Total Dewormed vs. Acute Malnutrition
+```{r}
+ggplot(cema_internship_task_2023, aes(x = `Total Dewormed`, y = `Acute Malnutrition`)) +
+  geom_point() +
+  labs(title = "Total Dewormed vs. Acute Malnutrition",
+       x = "Total Dewormed",
+       y = "Acute Malnutrition") +
+  theme_minimal()
+```
+  
+  
+  
+This plot will help me visualize any potential relationship between the number of individuals dewormed and cases of acute malnutrition.
+
+
+
+------------------------------------------------------------------------------------------------
+
+
+4. Research Question and Analysis: Stating my research question explicitly, and then carry out data analysis to address the question. This could involve calculating correlations, performing regression analysis, or any other relevant statistical analysis.
+
+
+Research Question:
+
+The research question I aim to address is: "Is there a relationship between the count of individuals dewormed and various health indicators across different counties in Kenya?"
+
+Data Analysis:
+
+To explore the relationship between the count of individuals dewormed and various health indicators, I can start by calculating correlations between "Total Dewormed" and other health indicators. Correlation analysis will help me to understand the direction and strength of the relationships, indicating whether there is a positive, negative, or no correlation between the variables.
+
+Let's calculate the correlations and visualize them using a correlation matrix and a heatmap:
+
+
+# Check the column names in the dataset
+```{r}
+colnames(cema_internship_task_2023_cleaned)
+```
+
+
+# Calculate correlation matrix for specific columns
+```{r}
+correlation_matrix <- cor(cema_internship_task_2023_cleaned[c("Total Dewormed","Acute Malnutrition", "stunted 6-23 months", "diarrhoea cases", "Underweight 0-<6 months")])
+```
+
+# View the correlation matrix
+```{r}
+correlation_matrix
+```
+
+
+# Visualize correlations with a heatmap
+```{r}
+library(corrplot)
+```
+
+
+# Visualize correlations with a heatmap
+```{r}
+corrplot(correlation_matrix, method = "color", type = "upper", tl.cex = 0.8)
+```
+
+
+
+
+This will calculate the correlation coefficients between "Total Dewormed," "Acute Malnutrition," "stunted 6-23 months," "diarrhoea cases," and "Underweight 0-<6 months" and store the results in the correlation_matrix object. I can then view the correlation matrix to see the relationships between these variables.
+
+
+
+---------------------------------------------------------------------------------------------
+5. Data Visualization: Create visualizations to support my analysis. I can use ggplot2 to generate various plots like scatter plots, bar plots, line plots, etc. Include informative titles, axis labels, and appropriate themes to make the visualizations clear and presentable.
+
+I'll start by creating scatter plots to visualize the relationships between "Total Dewormed" and other health indicators, including "Acute Malnutrition," "stunted 6-23 months," "diarrhoea cases," and "Underweight 0-<6 months."
+
+
+
+
+
+# Load necessary libraries
+```{r}
+library(ggplot2)
+```
+
+# Data visualization: Scatter plot - Total Dewormed vs. Acute Malnutrition
+```{r}
+ggplot(cema_internship_task_2023_cleaned, aes(x = `Total Dewormed`, y = `Acute Malnutrition`)) +
+  geom_point() +
+  labs(title = "Total Dewormed vs. Acute Malnutrition",
+       x = "Total Dewormed",
+       y = "Acute Malnutrition") +
+  theme_minimal()
+```
+
+# Data visualization: Scatter plot - Total Dewormed vs. Stunted 6-23 months
+```{r}
+ggplot(cema_internship_task_2023_cleaned, aes(x = `Total Dewormed`, y = `stunted 6-23 months`)) +
+  geom_point() +
+  labs(title = "Total Dewormed vs. Stunted 6-23 months",
+       x = "Total Dewormed",
+       y = "Stunted 6-23 months") +
+  theme_minimal()
+```
+
+# Data visualization: Scatter plot - Total Dewormed vs. Diarrhoea cases
+```{r}
+ggplot(cema_internship_task_2023_cleaned, aes(x = `Total Dewormed`, y = `diarrhoea cases`)) +
+  geom_point() +
+  labs(title = "Total Dewormed vs. Diarrhoea cases",
+       x = "Total Dewormed",
+       y = "Diarrhoea cases") +
+  theme_minimal()
+```
+
+# Data visualization: Scatter plot - Total Dewormed vs. Underweight 0-<6 months
+```{r}
+ggplot(cema_internship_task_2023_cleaned, aes(x = `Total Dewormed`, y = `Underweight 0-<6 months`)) +
+  geom_point() +
+  labs(title = "Total Dewormed vs. Underweight 0-<6 months",
+       x = "Total Dewormed",
+       y = "Underweight 0-<6 months") +
+  theme_minimal()
+```
+  
+  
+  
+  
+  In this code, I used ggplot2 to create four scatter plots with "Total Dewormed" as the x-axis and each of the health indicators ("Acute Malnutrition," "stunted 6-23 months," "diarrhoea cases," and "Underweight 0-<6 months") as the y-axis. The geom_point() function is used to add data points to the plots, and labs() is used to set informative titles and axis labels. The theme_minimal() function provides a clean and minimalistic theme for the plots.
+
+These scatter plots will help to visualize potential relationships between the number of individuals dewormed and different health indicators.
+
+Note: I can further customize the plots, add additional layers, or explore other types of visualizations based on my research question and analysis needs.
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+6. Conclusion: Summarizing my findings and insights from the EDA and data analysis.
+
+
+Based on the correlation matrix, I can draw the following conclusions:
+
+1. Total Dewormed vs. Health Indicators: The correlation coefficients show that there is a positive correlation between the count of individuals dewormed and certain health indicators. Specifically:
+
+"Total Dewormed" is positively correlated with "stunted 6-23 months" (correlation coefficient = 0.309) and "diarrhoea cases" (correlation coefficient = 0.323).
+"Total Dewormed" also has a relatively stronger positive correlation with "Underweight 0-<6 months" (correlation coefficient = 0.345).
+
+
+2. Acute Malnutrition and Health Indicators: "Acute Malnutrition" shows weak positive correlations with other health indicators:
+
+"Acute Malnutrition" is weakly correlated with "Total Dewormed" (correlation coefficient = 0.080).
+There is also a weak positive correlation between "Acute Malnutrition" and "diarrhoea cases" (correlation coefficient = 0.245).
+
+
+3. Strong Relationship: The strongest positive correlation observed is between "stunted 6-23 months" and "diarrhoea cases" (correlation coefficient = 0.637), suggesting that these two health indicators are positively related within the dataset.
+
+
+4. Underweight 0-<6 months and Health Indicators: "Underweight 0-<6 months" exhibits moderate positive correlations with other health indicators:
+
+There is a moderate positive correlation between "Underweight 0-<6 months" and "stunted 6-23 months" (correlation coefficient = 0.692).
+Additionally, "Underweight 0-<6 months" is moderately correlated with "diarrhoea cases" (correlation coefficient = 0.668).
+
+
+5. Implications: The positive correlations suggest that higher deworming efforts might be associated with better health indicators, such as reduced stunting and diarrhea cases and lower rates of underweight in children aged 0-<6 months. However, correlations do not imply causation, and other factors may also influence the observed relationships.
+
+6. Further Analysis: While the correlation analysis provides initial insights, additional analyses (e.g., regression modeling, time-series analysis) and domain knowledge are needed to establish causality and understand the underlying mechanisms driving these relationships.
+
+In conclusion, the correlation analysis suggests potential associations between deworming efforts and certain health indicators in the counties. These findings could serve as a basis for further research and targeted interventions to improve public health outcomes, particularly for child health and nutrition.
+
+As with any analysis, it is essential to interpret the results cautiously and consider the limitations of the dataset. Further investigations and collaboration with domain experts are essential to draw robust conclusions and make informed decisions.
+
+

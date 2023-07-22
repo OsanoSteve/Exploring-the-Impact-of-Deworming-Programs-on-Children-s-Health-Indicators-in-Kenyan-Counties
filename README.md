@@ -1,2 +1,2 @@
-# Center-for-Epidemiological-Modelling-and-Analysis-CEMA-Internship-Project
-Exploratory Analysis using R software to examine the relationship between the count of individuals dewormed and various health indicators across different counties in Kenya.
+# Project Name: Children Health Indicators in Kenyan Counties
+In this project, we analyze a dataset containing monthly data for children under 5 years of age, disaggregated at a county level for the period January 2021 to June 2023 in Kenya. The dataset provides valuable information on various health indicators, including the total number of children dewormed, the number of children with acute malnutrition, the number of stunted children in different age groups, the number of children with diarrhea cases, and the number of underweight children in different age categories.
